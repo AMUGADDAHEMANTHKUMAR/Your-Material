@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GetMaterial - Global study platform for students worldwide. Share notes, assignments, and study materials.">
+    <meta name="keywords" content="study materials, notes, assignments, education, students, global platform">
+    <title>GetMaterial - Global Study Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Loading GetMaterial...</p>
+    </div>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-text">Get <span class="logo-material">Material</span></span>
+            </div>
+            <div class="header-actions">
+                <button class="btn-ask-doubts">Ask Doubts</button>
+                <button class="btn-upload">Upload Notes</button>
+                <button class="theme-toggle" title="Toggle theme">🌙</button>
+                <div class="profile-icon">
+                    <div class="profile-circle">👤</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Scrolling Banner -->
+    <div class="scrolling-banner">
+        <div class="scroll-content">
+            <span class="scroll-text" id="donor-scroll"></span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Alert Message -->
+            <div class="alert-message">
+                <p>🚨 Database Cost Rising. <button class="donate-btn">Donate Now</button> to Keep Us Running! 🚨</p>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-notes">15</div>
+                    <div class="stat-label">Total Notes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-downloads">2.5K+</div>
+                    <div class="stat-label">Downloads</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-users">850+</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-donations">₹1,500+</div>
+                    <div class="stat-label">Donated</div>
+                </div>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="search-container">
+                    <div class="search-wrapper">
+                        <input type="text" class="search-input" placeholder="🔍 Search by title, subject, author, university..." id="search-input">
+                        <button class="search-clear" id="search-clear">✕</button>
+                    </div>
+                </div>
+                <div class="filter-controls">
+                    <select class="filter-dropdown" id="subject-filter">
+                        <option value="">All Subjects</option>
+                    </select>
+                    <select class="filter-dropdown" id="semester-filter">
+                        <option value="">All Semesters</option>
+                    </select>
+                    <select class="filter-dropdown" id="module-filter">
+                        <option value="">All Modules</option>
+                    </select>
+                    <select class="filter-dropdown" id="type-filter">
+                        <option value="">All Types</option>
+                    </select>
+                    <button class="reset-filters-btn" id="reset-filters">Reset All</button>
+                </div>
+                <div class="filter-results">
+                    <span id="results-count">Showing 15 of 15 materials</span>
+                </div>
+            </div>
+
+            <!-- Cards Grid -->
+            <div class="cards-grid" id="cards-grid">
+                <!-- Cards will be dynamically populated by JavaScript -->
+            </div>
+
+            <!-- Load More Button -->
+            <div class="load-more-section">
+                <button class="btn btn--secondary" id="load-more">Load More Materials</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>GetMaterial</h3>
+                    <p>Your global study companion. Share knowledge, succeed together.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#" id="about-link">About Us</a></li>
+                        <li><a href="#" id="contact-link">Contact</a></li>
+                        <li><a href="#" id="privacy-link">Privacy Policy</a></li>
+                        <li><a href="#" id="terms-link">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#" id="help-link">Help Center</a></li>
+                        <li><a href="#" id="feedback-link">Feedback</a></li>
+                        <li><a href="#" id="donate-footer">Donate</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GetMaterial. Made with ❤️ for students worldwide.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal: View Note -->
+    <div class="modal hidden" id="note-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Note Title</h2>
+                <button class="modal-close" id="modal-close">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="note-details">
+                    <div class="note-info">
+                        <span class="note-meta" id="modal-type">Type</span>
+                        <span class="note-meta" id="modal-semester">Semester</span>
+                        <span class="note-meta" id="modal-author">Author</span>
+                        <span class="note-meta" id="modal-date">Date</span>
+                    </div>
+                    <div class="note-stats">
+                        <span class="note-stat">📄 <span id="modal-pages">0</span> pages</span>
+                        <span class="note-stat">📦 <span id="modal-size">0 MB</span></span>
+                        <span class="note-stat">🏫 <span id="modal-university">University</span></span>
+                    </div>
+                    <p class="note-description" id="modal-description">Description</p>
+                    <div class="note-preview">
+                        <div class="preview-placeholder" id="preview-content">
+                            📄 Document Preview
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--primary" id="modal-download">📥 Download</button>
+                <button class="btn btn--secondary" id="modal-share-whatsapp">💬 Share on WhatsApp</button>
+                <button class="btn btn--outline" id="modal-bookmark">🔖 Bookmark</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Upload Notes -->
+    <div class="modal hidden" id="upload-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Upload Study Material</h2>
+                <button class="modal-close">✕</button>
+            </div>
+            <div class="modal-body">
+                <form class="upload-form" id="upload-form">
+                    <div class="form-group">
+                        <label class="form-label">Title *</label>
+                        <input type="text" class="form-control" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Subject *</label>
+                        <select class="form-control" name="subject" required>
+                            <option value="">Select Subject</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Mechanical Engineering">Mechanical Engineering</option>
+                            <option value="Electrical Engineering">Electrical Engineering</option>
+                            <option value="Civil Engineering">Civil Engineering</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Biology">Biology</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Type *</label>
+                        <select class="form-control" name="type" required>
+                            <option value="">Select Type</option>
+                            <option value="Assignment">Assignment</option>
+                            <option value="Notes">Notes</option>
+                            <option value="Lab Manual">Lab Manual</option>
+                            <option value="Question Bank">Question Bank</option>
+                            <option value="Module">Module</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Semester</label>
+                        <select class="form-control" name="semester">
+                            <option value="">Select Semester</option>
+                            <option value="1">Semester 1</option>
+                            <option value="2">Semester 2</option>
+                            <option value="3">Semester 3</option>
+                            <option value="4">Semester 4</option>
+                            <option value="5">Semester 5</option>
+                            <option value="6">Semester 6</option>
+                            <option value="7">Semester 7</option>
+                            <option value="8">Semester 8</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Module</label>
+                        <select class="form-control" name="module">
+                            <option value="">Select Module</option>
+                            <option value="1">Module 1</option>
+                            <option value="2">Module 2</option>
+                            <option value="3">Module 3</option>
+                            <option value="4">Module 4</option>
+                            <option value="5">Module 5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">University</label>
+                        <input type="text" class="form-control" name="university" placeholder="Enter your university">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" name="description" rows="3" placeholder="Brief description of the material"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">File *</label>
+                        <div class="file-upload-area" id="file-upload-area">
+                            <input type="file" class="file-input" name="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.png" required>
+                            <div class="file-upload-text">
+                                <span>📁 Click to browse or drag & drop files</span>
+                                <small>Supported: PDF, DOC, DOCX, PPT, PPTX, JPG, PNG (Max 50MB)</small>
+                            </div>
+                        </div>
+                        <div class="file-preview hidden" id="file-preview">
+                            <div class="file-info">
+                                <span class="file-name" id="file-name"></span>  
+                                <span class="file-size" id="file-size"></span>
+                            </div>
+                            <button type="button" class="file-remove" id="file-remove">Remove</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn--outline" id="upload-cancel">Cancel</button>
+                <button type="submit" class="btn btn--primary" id="upload-submit" form="upload-form">📤 Upload Material</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Donation -->
+    <div class="modal hidden" id="donation-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>❤️ Support GetMaterial</h2>
+                <button class="modal-close">✕</button>
+            </div>
+            <div class="modal-body">
+                <p>Help us keep the platform running and expand our reach globally!</p>
+                <div class="donation-amounts">
+                    <button class="donation-amount" data-amount="10">₹10</button>
+                    <button class="donation-amount" data-amount="25">₹25</button>
+                    <button class="donation-amount" data-amount="50">₹50</button>
+                    <button class="donation-amount" data-amount="100">₹100</button>
+                    <button class="donation-amount" data-amount="custom">Custom</button>
+                </div>
+                <div class="custom-amount-input hidden" id="custom-amount-input">
+                    <input type="number" class="form-control" placeholder="Enter amount" min="1" id="custom-amount">
+                </div>
+                <div class="payment-methods">
+                    <h4>Payment Methods</h4>
+                    <div class="payment-options">
+                        <button class="payment-option" data-method="upi">💳 UPI</button>
+                        <button class="payment-option" data-method="card">💳 Card</button>
+                        <button class="payment-option" data-method="netbanking">🏦 Net Banking</button>
+                        <button class="payment-option" data-method="paypal">🌐 PayPal</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" id="donation-cancel">Cancel</button>
+                <button class="btn btn--primary" id="donation-proceed">💝 Proceed to Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top hidden" id="back-to-top">↑</button>
+
+    <script src="YoueMaterial.js"></script>
+</body>
+</html>
